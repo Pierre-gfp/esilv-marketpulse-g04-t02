@@ -52,6 +52,8 @@ date,ticker,open,high,low,close,volume
 2026-09-29,AAPL,264.50,266.50,263.30,265.00,44000000
 2026-09-30,AAPL,266.00,267.70,264.80,266.20,38000000
 
+@simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ grep --help
+
 @simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ grep -m 3 AAPL data/sample/prices.csv
 2026-09-01,AAPL,249.20,251.50,248.00,250.00,38000000
 2026-09-02,AAPL,250.80,252.80,249.60,251.30,39500000
@@ -61,3 +63,12 @@ date,ticker,open,high,low,close,volume
 2:2026-09-01,AAPL,249.20,251.50,248.00,250.00,38000000
 4:2026-09-02,AAPL,250.80,252.80,249.60,251.30,39500000
 6:2026-09-03,AAPL,249.60,251.30,248.40,249.80,41000000
+
+@simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ git --help
+
+@simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ git add evidence/simon_prihnenko/td_01_linux_basics.txt
+
+@simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ git commit -m  evidence/simon_prihnenko/td_01_linux_basics.txt
+[simon_prihnenko 73f8f3d] evidence/simon_prihnenko/td_01_linux_basics.txt
+ 1 file changed, 63 insertions(+)
+ create mode 100644 evidence/simon_prihnenko/td_01_linux_basics.txt
