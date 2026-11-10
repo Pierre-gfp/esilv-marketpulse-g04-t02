@@ -62,4 +62,19 @@ date,ticker,open,high,low,close,volume
 
 
 
-@Pierre-gfp ➜ /workspaces/esilv-marketpulse-g04-t02 (pierre_rancon) $ grep --help
+
+
+@Pierre-gfp ➜ /workspaces/esilv-marketpulse-g04-t02 (pierre_rancon) $ git add evidence/pierre_rancon/td_01_linux_basics.txt
+@Pierre-gfp ➜ /workspaces/esilv-marketpulse-g04-t02 (pierre_rancon) $ git commit -m  evidence/pierre_rancon/td_01_linux_b
+asics.txt
+[pierre_rancon f973be8] evidence/pierre_rancon/td_01_linux_basics.txt
+ 1 file changed, 65 insertions(+)
+ create mode 100644 evidence/pierre_rancon/td_01_linux_basics.txt
+@Pierre-gfp ➜ /workspaces/esilv-marketpulse-g04-t02 (pierre_rancon) $ git push 
+fatal: The current branch pierre_rancon has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin pierre_rancon
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
