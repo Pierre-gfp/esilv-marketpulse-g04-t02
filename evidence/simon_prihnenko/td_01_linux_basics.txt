@@ -68,7 +68,31 @@ date,ticker,open,high,low,close,volume
 
 @simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ git add evidence/simon_prihnenko/td_01_linux_basics.txt
 
+@simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ git status
+On branch simon_prihnenko
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   evidence/simon_prihnenko/td_01_linux_basics.txt
+
 @simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ git commit -m  evidence/simon_prihnenko/td_01_linux_basics.txt
 [simon_prihnenko 73f8f3d] evidence/simon_prihnenko/td_01_linux_basics.txt
  1 file changed, 63 insertions(+)
  create mode 100644 evidence/simon_prihnenko/td_01_linux_basics.txt
+
+@simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ git push --set-upstream origin simon_prihnenko
+Enumerating objects: 12, done.
+Counting objects: 100% (12/12), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (10/10), 1.67 KiB | 1.67 MiB/s, done.
+Total 10 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (3/3), completed with 1 local object.
+remote: 
+remote: Create a pull request for 'simon_prihnenko' on GitHub by visiting:
+remote:      https://github.com/Pierre-gfp/esilv-marketpulse-g04-t02/pull/new/simon_prihnenko
+remote: 
+To https://github.com/Pierre-gfp/esilv-marketpulse-g04-t02
+ * [new branch]      simon_prihnenko -> simon_prihnenko
+branch 'simon_prihnenko' set up to track 'origin/simon_prihnenko'.
+
+@simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ git push
