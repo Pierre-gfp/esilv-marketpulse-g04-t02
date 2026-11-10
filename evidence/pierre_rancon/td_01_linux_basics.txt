@@ -78,3 +78,22 @@ To push the current branch and set the remote as upstream, use
 
 To have this happen automatically for branches without a tracking
 upstream, see 'push.autoSetupRemote' in 'git help config'.
+
+
+@Pierre-gfp ➜ /workspaces/esilv-marketpulse-g04-t02 (pierre_rancon) $ git push --set-upstream origin pierre_rancon
+Enumerating objects: 12, done.
+Counting objects: 100% (12/12), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (10/10), 1.81 KiB | 1.81 MiB/s, done.
+Total 10 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (3/3), completed with 1 local object.
+remote: 
+remote: Create a pull request for 'pierre_rancon' on GitHub by visiting:
+remote:      https://github.com/Pierre-gfp/esilv-marketpulse-g04-t02/pull/new/pierre_rancon
+remote: 
+To https://github.com/Pierre-gfp/esilv-marketpulse-g04-t02
+ * [new branch]      pierre_rancon -> pierre_rancon
+branch 'pierre_rancon' set up to track 'origin/pierre_rancon'.
+@Pierre-gfp ➜ /workspaces/esilv-marketpulse-g04-t02 (pierre_rancon) $ git push
+Everything up-to-date
