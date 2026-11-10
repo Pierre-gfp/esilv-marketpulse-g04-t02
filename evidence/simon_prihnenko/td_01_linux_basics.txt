@@ -74,7 +74,7 @@ Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
         modified:   evidence/simon_prihnenko/td_01_linux_basics.txt
 
-@simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ git commit -m  evidence/simon_prihnenko/td_01_linux_basics.txt
+@simprih ➜ /workspaces/esilv-marketpulse-g04-t02 (simon_prihnenko) $ git commit -m  "Add the terminal commands"
 [simon_prihnenko 73f8f3d] evidence/simon_prihnenko/td_01_linux_basics.txt
  1 file changed, 63 insertions(+)
  create mode 100644 evidence/simon_prihnenko/td_01_linux_basics.txt
