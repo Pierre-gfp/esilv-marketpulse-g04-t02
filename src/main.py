@@ -7,6 +7,10 @@ from analytics import (
     calculate_base_100,
     calculate_relative_performance,
 )
+from providers.yahoo_provider import (
+    YAHOO_SYMBOLS,
+    fetch_yahoo_prices,
+)
 
 
 DATA_DIR = Path("data/sample")
@@ -16,6 +20,12 @@ DATA_DIR = Path("data/sample")
 # Parsing YAML is optional and is not required by the 18-hour lab sequence.
 LOOKBACK_LABEL = "1 month"
 INTERVAL_LABEL = "Daily"
+
+# Same lookback and interval for instrument and benchmark (Yahoo format).
+YAHOO_PERIOD = "1mo"
+YAHOO_INTERVAL = "1d"
+
+PROVIDER_LABEL = "Yahoo Finance via yfinance"
 
 
 def load_instruments():
@@ -69,21 +79,24 @@ def normalize_price_row(row):
 
 def main():
     instruments = load_instruments()
-    prices = load_prices()
-
-    normalized_prices = [
-        normalize_price_row(row)
-        for row in prices
-    ]
 
     instrument = instruments["instrument"]
     benchmark = instruments["benchmark"]
 
-    instrument_prices = filter_prices(
-        normalized_prices, instrument["ticker"]
+    # Yahoo symbol (e.g. ^GSPC) is only used to call the provider;
+    # the canonical ticker (e.g. SP500) is kept in the returned rows.
+    instrument_prices = fetch_yahoo_prices(
+        symbol=YAHOO_SYMBOLS[instrument["ticker"]],
+        canonical_ticker=instrument["ticker"],
+        period=YAHOO_PERIOD,
+        interval=YAHOO_INTERVAL,
     )
-    benchmark_prices = filter_prices(
-        normalized_prices, benchmark["ticker"]
+
+    benchmark_prices = fetch_yahoo_prices(
+        symbol=YAHOO_SYMBOLS[benchmark["ticker"]],
+        canonical_ticker=benchmark["ticker"],
+        period=YAHOO_PERIOD,
+        interval=YAHOO_INTERVAL,
     )
 
     aligned_instrument, aligned_benchmark = align_series(
@@ -91,9 +104,15 @@ def main():
         benchmark_prices,
     )
 
+    if not aligned_instrument:
+        raise ValueError("No common dates between instrument and benchmark")
+
     instrument_return = calculate_period_return(aligned_instrument)
     benchmark_return = calculate_period_return(aligned_benchmark)
-    relative_performance = calculate_relative_performance(instrument_return,benchmark_return)
+    relative_performance = calculate_relative_performance(
+        instrument_return,
+        benchmark_return,
+    )
 
     instrument_base_100 = calculate_base_100(aligned_instrument)
     benchmark_base_100 = calculate_base_100(aligned_benchmark)
@@ -101,9 +120,20 @@ def main():
     print("=== MarketPulse ===")
     print()
 
+    print("Provider")
+    print(PROVIDER_LABEL)
+    print()
+
     print("Market configuration")
-    print(f"Period   : {LOOKBACK_LABEL}")
-    print(f"Interval : {INTERVAL_LABEL}")
+    print(f"Instrument : {instrument['ticker']} - {instrument['name']}")
+    print(f"Benchmark  : {benchmark['name']}")
+    print(f"Period     : {LOOKBACK_LABEL}")
+    print(f"Interval   : {INTERVAL_LABEL}")
+    print(
+        f"Dates      : {aligned_instrument[0]['date']} -> "
+        f"{aligned_instrument[-1]['date']} "
+        f"({len(aligned_instrument)} common dates)"
+    )
     print()
 
     print("Instrument")
@@ -116,9 +146,12 @@ def main():
     print(f"Period return : {benchmark_return:.2f}%")
     print()
 
-    print()
     print("Relative performance")
-    print(f"{aligned_instrument[0]['ticker']} vs {aligned_benchmark[0]['ticker']} : "f"{relative_performance:+.2f} percentage points")
+    print(
+        f"{instrument['ticker']} vs {benchmark['ticker']} : "
+        f"{relative_performance:+.2f} percentage points"
+    )
+    print()
 
     print("Base 100")
     print(
