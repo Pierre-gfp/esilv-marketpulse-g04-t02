@@ -5,6 +5,7 @@ from analytics import (
     align_series,
     calculate_period_return,
     calculate_base_100,
+    calculate_relative_performance,
 )
 
 
@@ -92,6 +93,7 @@ def main():
 
     instrument_return = calculate_period_return(aligned_instrument)
     benchmark_return = calculate_period_return(aligned_benchmark)
+    relative_performance = calculate_relative_performance(instrument_return,benchmark_return)
 
     instrument_base_100 = calculate_base_100(aligned_instrument)
     benchmark_base_100 = calculate_base_100(aligned_benchmark)
@@ -113,6 +115,10 @@ def main():
     display_market_summary(benchmark, aligned_benchmark, show_currency=False)
     print(f"Period return : {benchmark_return:.2f}%")
     print()
+
+    print()
+    print("Relative performance")
+    print(f"{aligned_instrument[0]['ticker']} vs {aligned_benchmark[0]['ticker']} : "f"{relative_performance:+.2f} percentage points")
 
     print("Base 100")
     print(
