@@ -47,7 +47,31 @@ def display_market_summary(asset, prices, show_currency=True):
     print(f"First close  : {first_close:.2f}{currency_suffix}")
     print(f"Last close   : {last_close:.2f}{currency_suffix}")
 
+def index_by_date(prices):
+    return {
+        row["date"]: row
+        for row in prices
+    }
 
+
+def align_series(instrument_prices, benchmark_prices):
+    instrument_by_date = index_by_date(instrument_prices)
+    benchmark_by_date = index_by_date(benchmark_prices)
+
+    common_dates = sorted(
+        set(instrument_by_date) & set(benchmark_by_date)
+    )
+
+    aligned_instrument = [
+        instrument_by_date[date]
+        for date in common_dates
+    ]
+    aligned_benchmark = [
+        benchmark_by_date[date]
+        for date in common_dates
+    ]
+
+    return aligned_instrument, aligned_benchmark
 
 def main():
     instruments = load_instruments()
@@ -71,9 +95,22 @@ def main():
     print()
 
     print("Benchmark")
+
     display_market_summary(benchmark, benchmark_prices, show_currency=False)
+    instrument_prices = filter_prices(prices, instrument["ticker"])
+    benchmark_prices = filter_prices(prices, benchmark["ticker"])
+
+    aligned_instrument, aligned_benchmark = align_series(
+        instrument_prices,
+        benchmark_prices,
+    )
+
+    print("Aligned observations:", len(aligned_instrument), len(aligned_benchmark))
+    print("First common date:", aligned_instrument[0]["date"])
+    print("Last common date :", aligned_instrument[-1]["date"])
 
     
+
 
 
 
