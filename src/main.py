@@ -1,7 +1,7 @@
 from pathlib import Path
 import csv
 import json
-
+from analytics import align_series
 
 DATA_DIR = Path("data/sample")
 
@@ -47,31 +47,7 @@ def display_market_summary(asset, prices, show_currency=True):
     print(f"First close  : {first_close:.2f}{currency_suffix}")
     print(f"Last close   : {last_close:.2f}{currency_suffix}")
 
-def index_by_date(prices):
-    return {
-        row["date"]: row
-        for row in prices
-    }
 
-
-def align_series(instrument_prices, benchmark_prices):
-    instrument_by_date = index_by_date(instrument_prices)
-    benchmark_by_date = index_by_date(benchmark_prices)
-
-    common_dates = sorted(
-        set(instrument_by_date) & set(benchmark_by_date)
-    )
-
-    aligned_instrument = [
-        instrument_by_date[date]
-        for date in common_dates
-    ]
-    aligned_benchmark = [
-        benchmark_by_date[date]
-        for date in common_dates
-    ]
-
-    return aligned_instrument, aligned_benchmark
 
 def main():
     instruments = load_instruments()
