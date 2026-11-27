@@ -1,5 +1,10 @@
 import yfinance as yf
 
+YAHOO_SYMBOLS = {
+    "AAPL": "AAPL",
+    "SP500": "^GSPC",
+}
+
 
 def fetch_yahoo_prices(
     symbol,
