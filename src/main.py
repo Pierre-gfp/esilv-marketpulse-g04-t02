@@ -1,7 +1,12 @@
 from pathlib import Path
 import csv
 import json
-from analytics import align_series
+from analytics import (
+    align_series,
+    calculate_period_return,
+    calculate_base_100,
+)
+
 
 DATA_DIR = Path("data/sample")
 
@@ -48,16 +53,49 @@ def display_market_summary(asset, prices, show_currency=True):
     print(f"Last close   : {last_close:.2f}{currency_suffix}")
 
 
+def normalize_price_row(row):
+    return {
+        "date": row["date"],
+        "ticker": row["ticker"],
+        "open": float(row["open"]),
+        "high": float(row["high"]),
+        "low": float(row["low"]),
+        "close": float(row["close"]),
+        "volume": int(row["volume"]),
+    }
+
+
 
 def main():
     instruments = load_instruments()
     prices = load_prices()
 
+    normalized_prices = [
+        normalize_price_row(row)
+        for row in prices
+    ]
+
     instrument = instruments["instrument"]
     benchmark = instruments["benchmark"]
 
-    instrument_prices = filter_prices(prices, instrument["ticker"])
-    benchmark_prices = filter_prices(prices, benchmark["ticker"])
+    instrument_prices = filter_prices(
+        normalized_prices, instrument["ticker"]
+    )
+    benchmark_prices = filter_prices(
+        normalized_prices, benchmark["ticker"]
+    )
+
+    aligned_instrument, aligned_benchmark = align_series(
+        instrument_prices,
+        benchmark_prices,
+    )
+
+    instrument_return = calculate_period_return(aligned_instrument)
+    benchmark_return = calculate_period_return(aligned_benchmark)
+
+    instrument_base_100 = calculate_base_100(aligned_instrument)
+    benchmark_base_100 = calculate_base_100(aligned_benchmark)
+
     print("=== MarketPulse ===")
     print()
 
@@ -67,27 +105,26 @@ def main():
     print()
 
     print("Instrument")
-    display_market_summary(instrument, instrument_prices, show_currency=True)
+    display_market_summary(instrument, aligned_instrument, show_currency=True)
+    print(f"Period return : {instrument_return:.2f}%")
     print()
 
     print("Benchmark")
+    display_market_summary(benchmark, aligned_benchmark, show_currency=False)
+    print(f"Period return : {benchmark_return:.2f}%")
+    print()
 
-    display_market_summary(benchmark, benchmark_prices, show_currency=False)
-    instrument_prices = filter_prices(prices, instrument["ticker"])
-    benchmark_prices = filter_prices(prices, benchmark["ticker"])
-
-    aligned_instrument, aligned_benchmark = align_series(
-        instrument_prices,
-        benchmark_prices,
+    print("Base 100")
+    print(
+        f"{instrument['ticker']}: "
+        f"{instrument_base_100[0]['value']:.2f} -> "
+        f"{instrument_base_100[-1]['value']:.2f}"
     )
-
-    print("Aligned observations:", len(aligned_instrument), len(aligned_benchmark))
-    print("First common date:", aligned_instrument[0]["date"])
-    print("Last common date :", aligned_instrument[-1]["date"])
-
-    
-
-
+    print(
+        f"{benchmark['ticker']}: "
+        f"{benchmark_base_100[0]['value']:.2f} -> "
+        f"{benchmark_base_100[-1]['value']:.2f}"
+    )
 
 
 if __name__ == "__main__":
